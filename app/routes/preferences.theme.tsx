@@ -1,4 +1,4 @@
-import { json, ActionFunctionArgs } from "@remix-run/node";
+import { json, redirect, type ActionFunctionArgs } from "@remix-run/node";
 import { parse } from "@conform-to/zod";
 import { setTheme } from "@utils/theme.server";
 import { invariantResponse } from "@utils/invariant";
@@ -10,11 +10,7 @@ export const schema = z.object({
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  invariantResponse(
-    formData.get("intent") === "update-theme",
-    "Invalid intent",
-    { status: 400 }
-  );
+  invariantResponse(formData.get("intent") === "update-theme", "Invalid intent", { status: 400 });
   const submission = parse(formData, {
     schema,
   });
@@ -29,5 +25,9 @@ export async function action({ request }: ActionFunctionArgs) {
   const responseInit = {
     headers: { "set-cookie": setTheme(theme) },
   };
-  return json({ success: true, submission }, responseInit);
+  if (request.headers.get("accept") === "application/json") {
+    return json({ success: true, submission }, responseInit);
+  } else {
+    return redirect("/", responseInit);
+  }
 }
