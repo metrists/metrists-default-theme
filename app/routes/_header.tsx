@@ -1,13 +1,9 @@
 import { useFetcher, useOutletContext, Outlet, type MetaFunction } from "@remix-run/react";
-import { useOptimisticThemeMode } from "@utils/hooks/use-theme";
 import { Separator } from "@components/ui/separator";
+import { Button } from "@components/ui/button";
 import { MoonIcon, SunIcon, UserCogIcon } from "lucide-react";
-import { type Theme } from "~/utils/theme.server";
-import { Button } from "~/components/ui/button";
-
-export const meta: MetaFunction = () => {
-  return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }];
-};
+import { useOptimisticThemeMode } from "@utils/hooks/use-theme";
+import type { Theme } from "@utils/theme.server";
 
 export default function Index() {
   const fetcher = useFetcher({});
@@ -30,7 +26,7 @@ export default function Index() {
       <div>
         <div className="flex justify-between align-center h-[80px]">
           <div className="flex items-center"></div>
-          <div className="mx-2 flex items-center">
+          <div className="mx-8 flex items-center">
             <fetcher.Form method="post" action="/preferences/theme">
               <input type="hidden" name="theme" value={nextMode} />
               <input type="hidden" name="intent" value="update-theme" />

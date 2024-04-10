@@ -28,6 +28,7 @@ export async function action({ request }: ActionFunctionArgs) {
   if (request.headers.get("accept") === "application/json") {
     return json({ success: true, submission }, responseInit);
   } else {
+    //TODO: redirect back to where the user was
     return redirect("/", responseInit);
   }
 }
