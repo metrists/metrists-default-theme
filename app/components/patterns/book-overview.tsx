@@ -1,30 +1,42 @@
-import { useMemo } from "react";
+import { MouseEventHandler, useMemo, type ReactElement, type ReactNode } from "react";
+import { Link, LinkProps } from "@remix-run/react";
+import { Button, ButtonProps } from "~/components/ui/button";
 import { TwoToneImage, TwoToneImageProps } from "./two-tone-image";
 import { cn } from "~/utils";
 
-export interface BookOverviewSmallActionProps {
-  label: string;
-  action: string | (() => void);
-}
+export type BookOverviewActionProps = {
+  label: ReactNode;
+  buttonProps: Partial<ButtonProps>;
+} & (
+  | {
+      action: string;
+      linkProps?: Partial<LinkProps>;
+    }
+  | {
+      linkProps?: undefined;
+      action: MouseEventHandler<HTMLButtonElement>;
+    }
+);
 
-export interface BookOverviewSmallProps {
+export interface BookOverviewProps {
   title: string;
   authors?: string[];
   cover?: string;
   datePublished?: string;
-  actions?: BookOverviewSmallActionProps[];
+  actions?: BookOverviewActionProps[];
   twoToneImageProps?: Partial<TwoToneImageProps>;
   titleProps?: Partial<React.HTMLAttributes<HTMLHeadingElement>>;
 }
 
-export function BookOverviewSmall({
+export function BookOverview({
   title,
-  authors = [],
   cover,
   datePublished,
+  authors = [],
   twoToneImageProps = {},
   titleProps = {},
-}: BookOverviewSmallProps) {
+  actions = [],
+}: BookOverviewProps) {
   const [imageContainerClassNameOverride, restOfImageProps] = useMemo(() => {
     const { imageContainerClassName, ...rest } = twoToneImageProps;
     return [imageContainerClassName, rest];
@@ -58,6 +70,20 @@ export function BookOverviewSmall({
       </h3>
       <div className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-muted-foreground">
         {authors?.join(", ")} {datePublished ? `${datePublished}` : ""}
+      </div>
+      <div className="flex gap-2">
+        {actions?.map(
+          ({ label, action, buttonProps, linkProps }: BookOverviewActionProps, index: number) =>
+            typeof action === "string" ? (
+              <Link key={`book-overview-action-${action}`} to={action} {...linkProps}>
+                <Button {...buttonProps}>{label}</Button>
+              </Link>
+            ) : (
+              <Button key={`book-overview-action-${index}`} onClick={action} {...buttonProps}>
+                {label}
+              </Button>
+            )
+        )}
       </div>
     </div>
   );

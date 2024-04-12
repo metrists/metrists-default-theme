@@ -1,7 +1,6 @@
-import { Link, Outlet, useLoaderData, useOutletContext, useRouteError } from "@remix-run/react";
-import { LayoutGridIcon, SearchIcon, BookCopyIcon } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import { BookOverviewSmall } from "~/components/patterns/book-overview-small";
+import { Outlet } from "@remix-run/react";
+import { Share } from "lucide-react";
+import { BookOverview } from "~/components/patterns/book-overview";
 import { meta } from "~/utils/data";
 
 export default function Index() {
@@ -14,14 +13,26 @@ export default function Index() {
         <Outlet />
         <div className="hidden h-full min-h-screen  w-[266px] min-w-[266px] space-y-4 border-l py-5 md:sticky md:top-0 md:block">
           <div className="px-3 py-2">
-            <BookOverviewSmall
+            <BookOverview
               title={meta.title}
               authors={meta.authors.map((item) => item.name)}
               datePublished={meta.date}
+              actions={[
+                {
+                  label: "Download",
+                  action: "/epub.md",
+                  buttonProps: { size: "sm" },
+                },
+                {
+                  label: <Share size={16} />,
+                  action: (e) => alert("Share"),
+                  buttonProps: { size: "sm", variant: "secondary" },
+                },
+              ]}
             />
           </div>
-          <div className="px-3 py-2">
-            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Popular</h2>
+          <div className="py-2">
+            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Chapters</h2>
             <div className="space-y-1"></div>
           </div>
         </div>
