@@ -30,6 +30,9 @@ export default function Index() {
                   buttonProps: { size: "sm", variant: "secondary" },
                 },
               ]}
+              twoToneImageProps={{
+                imageContainerClassName: "w-full",
+              }}
             />
           </div>
           <div className="py-2">

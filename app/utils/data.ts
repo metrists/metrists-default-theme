@@ -7,5 +7,5 @@ export const meta = {
       uri: "http://en.wikipedia.org/wiki/H._G._Wells",
     },
   ],
-  cover: "/default/default-cover.svg",
+  cover: "/default-cover.svg",
 } as const;
