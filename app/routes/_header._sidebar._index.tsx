@@ -23,7 +23,7 @@ export default function Index() {
           {
             label: <Share size={16} />,
             action: () => alert("Share"),
-            buttonProps: { variant: "secondary" },
+            buttonProps: { variant: "secondary", className: "px-3" },
           },
         ]}
         twoToneImageProps={{
