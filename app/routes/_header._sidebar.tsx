@@ -1,9 +1,19 @@
-import { Outlet } from "@remix-run/react";
+import { LoaderFunction } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
+import { getChapters } from "~/utils/content-layer.server";
 import { meta } from "~/utils/data";
 
+export const loader: LoaderFunction = async () => {
+  return getChapters();
+};
+
 export default function Index() {
+  const loaderData = useLoaderData();
+
+  console.log(loaderData);
+
   return (
     <div className="relative flex flex-col md:h-full md:flex-row">
       <div className="sticky top-0 z-10 w-full space-y-4 bg-background px-4 py-2 md:hidden">

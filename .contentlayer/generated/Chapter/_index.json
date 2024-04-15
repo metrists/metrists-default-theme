@@ -1,0 +1,27 @@
+[
+  {
+    "title": "the boy who lived",
+    "date": "2021-06-09T00:00:00.000Z",
+    "author": "Aftab Alam",
+    "tags": [
+      "remix",
+      "full-stack"
+    ],
+    "description": "Remix will blow your mind!",
+    "body": {
+      "raw": "\nSomething very minimal\n",
+      "html": "<p>Something very minimal</p>"
+    },
+    "_id": "chatper-1.md",
+    "_raw": {
+      "sourceFilePath": "chatper-1.md",
+      "sourceFileName": "chatper-1.md",
+      "sourceFileDir": ".",
+      "contentType": "markdown",
+      "flattenedPath": "chatper-1"
+    },
+    "type": "Chapter",
+    "slug": "chatper-1",
+    "url": "/chapters/chatper-1"
+  }
+]
