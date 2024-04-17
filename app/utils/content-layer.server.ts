@@ -1,22 +1,17 @@
-import { promises as fs, constants } from "fs";
+import { promises as fs } from "fs";
 import path from "path";
-import { Chapter, Markdown } from "../../.contentlayer/types";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { chaptersDirectory } from "../../contentlayer.config";
+import { Chapter, Markdown } from "../../.contentlayer/types";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const CONTENT_LAYER_DIR = path.join(
-  __dirname,
-  "..",
-  "node_modules",
-  ".contentlayer",
-  "data"
-);
+export const CONTENT_LAYER_DIR = path.join(__dirname, "..", ".contentlayer", "generated");
 
-export const CONTENT_POST_DIR = path.join(CONTENT_LAYER_DIR, "Post");
-export const CONTENT_SRC_POST_DIR = path.join(__dirname, "..", "content", "posts");
+export const CONTENT_POST_DIR = path.join(CONTENT_LAYER_DIR, "Chapter");
+export const CONTENT_SRC_POST_DIR = path.join(__dirname, "..", chaptersDirectory);
 
 export type ChapterData = Omit<Chapter, "_id" | "_raw" | "type" | "url" | "body"> & {
   body: string | Markdown;

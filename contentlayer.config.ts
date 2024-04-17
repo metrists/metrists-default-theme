@@ -1,6 +1,8 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import highlight from "rehype-highlight";
 
+export const chaptersDirectory = "content/chapters";
+
 export const Chapter = defineDocumentType(() => ({
   name: "Chapter",
   filePathPattern: `**/*.md`,
@@ -25,7 +27,7 @@ export const Chapter = defineDocumentType(() => ({
 }));
 
 export default makeSource({
-  contentDirPath: "content/chapters",
+  contentDirPath: chaptersDirectory,
   documentTypes: [Chapter],
   markdown: { rehypePlugins: [highlight] },
 });
