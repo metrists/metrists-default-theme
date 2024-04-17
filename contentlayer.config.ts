@@ -1,7 +1,8 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import highlight from "rehype-highlight";
 
-export const chaptersDirectory = "content/chapters";
+export const contentDirectory = "content";
+export const metaPath = "meta.md";
 
 export const Chapter = defineDocumentType(() => ({
   name: "Chapter",
@@ -26,8 +27,25 @@ export const Chapter = defineDocumentType(() => ({
   },
 }));
 
+export const Meta = defineDocumentType(() => ({
+  name: "Meta",
+  filePathPattern: `**/${metaPath}`,
+  fields: {
+    title: { type: "string", required: true },
+    date: { type: "date", required: true },
+    author: { type: "string", required: true },
+    tags: { type: "json", required: false, default: [] },
+    updated: { type: "date" },
+  },
+  computedFields: {
+    url: {
+      type: "string",
+      resolve: (doc) => `/chapters/${doc._raw.flattenedPath}`,
+    },
+  },
+}));
 export default makeSource({
-  contentDirPath: chaptersDirectory,
-  documentTypes: [Chapter],
+  contentDirPath: contentDirectory,
+  documentTypes: [Chapter, Meta],
   markdown: { rehypePlugins: [highlight] },
 });

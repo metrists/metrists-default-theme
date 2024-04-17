@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { chaptersDirectory } from "../../contentlayer.config";
+import { contentDirectory, metaPath } from "../../contentlayer.config";
 import { Chapter, Markdown } from "../../.contentlayer/types";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -11,7 +11,7 @@ const __dirname = dirname(__filename);
 export const CONTENT_LAYER_DIR = path.join(__dirname, "..", ".contentlayer", "generated");
 
 export const CONTENT_POST_DIR = path.join(CONTENT_LAYER_DIR, "Chapter");
-export const CONTENT_SRC_POST_DIR = path.join(__dirname, "..", chaptersDirectory);
+export const CONTENT_SRC_POST_DIR = path.join(__dirname, "..", contentDirectory);
 
 export type ChapterData = Omit<Chapter, "_id" | "_raw" | "type" | "url" | "body"> & {
   body: string | Markdown;
@@ -37,10 +37,15 @@ export async function getChapters(): Promise<Array<Chapter>> {
   const dir = await fs.readdir(CONTENT_SRC_POST_DIR);
 
   return Promise.all(
-    dir.map(async (filename) => {
-      const file = await getJsonData<Chapter>(path.join(CONTENT_POST_DIR, `${filename}.json`));
-      return file;
-    })
+    dir
+      .map(async (filename) => {
+        if (filename === metaPath) {
+          return null;
+        }
+        const file = await getJsonData<Chapter>(path.join(CONTENT_POST_DIR, `${filename}.json`));
+        return file;
+      })
+      .filter(Boolean)
   );
 }
 
@@ -56,6 +61,20 @@ export async function getPostSourceFilenames(): Promise<Array<string>> {
 export async function getChapter(slug: string): Promise<Chapter | null> {
   try {
     const file = await getJsonData<Chapter>(path.join(CONTENT_POST_DIR, `${slug}.md.json`));
+    return file;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ *
+ * @param slug the slug for the post
+ * @returns the post
+ */
+export async function getMeta(): Promise<Chapter | null> {
+  try {
+    const file = await getJsonData<Chapter>(path.join(CONTENT_POST_DIR, `${metaPath}.json`));
     return file;
   } catch (e) {
     return null;
