@@ -5,8 +5,5 @@ node_modules
 /public/build
 .env
 
-# sst
-.sst
-
-# local db
-local.db
+# content layer
+.contentlayer
