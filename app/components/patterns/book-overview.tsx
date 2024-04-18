@@ -47,6 +47,16 @@ export function BookOverview({
     return [className, rest];
   }, [titleProps]);
 
+  const formattedDatePublished = useMemo(() => {
+    if (!datePublished) return "";
+    const date = new Date(datePublished);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  });
+
   return (
     <div className="flex flex-col gap-2 w-full">
       {cover ? (
@@ -59,17 +69,11 @@ export function BookOverview({
       ) : (
         <></>
       )}
-      <h3
-        className={cn(
-          "text-md max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap",
-          titleClassNameOverride
-        )}
-        {...restOfTitleProps}
-      >
+      <h3 className={cn("text-md ", titleClassNameOverride)} {...restOfTitleProps}>
         {title}
       </h3>
       <div className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-muted-foreground">
-        {authors?.join(", ")} {datePublished ? `${datePublished}` : ""}
+        {authors?.join(", ")} {formattedDatePublished ? `• ${formattedDatePublished}` : ""}
       </div>
       <div className="flex gap-2">
         {actions?.map(

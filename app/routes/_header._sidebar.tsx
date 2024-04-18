@@ -1,18 +1,16 @@
-import { LoaderFunction } from "@remix-run/node";
+import { json, type LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
-import { getChapters } from "~/utils/content-layer.server";
-import { meta } from "~/utils/data";
+import { getMeta } from "~/utils/content-layer.server";
 
 export const loader: LoaderFunction = async () => {
-  return getChapters();
+  const meta = await getMeta();
+  return json({ meta });
 };
 
 export default function Index() {
-  const loaderData = useLoaderData();
-
-  console.log(loaderData);
+  const { meta } = useLoaderData<typeof loader>();
 
   return (
     <div className="relative flex flex-col md:h-full md:flex-row">
@@ -27,7 +25,7 @@ export default function Index() {
           <div className="px-3 py-2">
             <BookOverview
               title={meta.title}
-              authors={meta.authors.map((item) => item.name)}
+              authors={meta.authors}
               datePublished={meta.date}
               actions={[
                 {

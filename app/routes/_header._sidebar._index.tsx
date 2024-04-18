@@ -1,14 +1,23 @@
+import { json, type LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "../components/patterns/book-overview";
-import { meta } from "~/utils/data";
+import { getMeta } from "../utils/content-layer.server";
+
+export const loader: LoaderFunction = async () => {
+  const meta = await getMeta();
+  return json({ meta });
+};
 
 export default function Index() {
+  const { meta } = useLoaderData<typeof loader>();
+
   return (
     <div className="relative m-auto flex w-full  flex-col md:h-full md:flex-row">
       <BookOverview
-        title="The Invisible Man"
-        cover={meta.cover}
-        authors={meta.authors.map((author) => author.name)}
+        title={meta.title}
+        cover="/default-cover.svg"
+        authors={meta.authors}
         actions={[
           {
             label: "Start Reading",
