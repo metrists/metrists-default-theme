@@ -9,11 +9,11 @@ export const Chapter = defineDocumentType(() => ({
   filePathPattern: `**/*.md`,
   fields: {
     title: { type: "string", required: true },
-    date: { type: "date", required: true },
-    author: { type: "string", required: true },
+    date: { type: "date", required: false },
+    author: { type: "string", required: false },
     tags: { type: "json", required: false, default: [] },
-    description: { type: "string" },
-    updated: { type: "date" },
+    description: { type: "string", required: false },
+    updated: { type: "date", required: false },
   },
   computedFields: {
     slug: {
@@ -24,6 +24,10 @@ export const Chapter = defineDocumentType(() => ({
       type: "string",
       resolve: (doc) => `/chapters/${doc._raw.flattenedPath}`,
     },
+    authors: {
+      type: "json",
+      resolve: (doc) => (doc.author ? doc.author.split(",") : null),
+    },
   },
 }));
 
@@ -32,15 +36,15 @@ export const Meta = defineDocumentType(() => ({
   filePathPattern: `**/${metaPath}`,
   fields: {
     title: { type: "string", required: true },
-    date: { type: "date", required: true },
     author: { type: "string", required: true },
+    date: { type: "date", required: false },
     tags: { type: "json", required: false, default: [] },
-    updated: { type: "date" },
+    updated: { type: "date", required: false },
   },
   computedFields: {
-    url: {
-      type: "string",
-      resolve: (doc) => `/chapters/${doc._raw.flattenedPath}`,
+    authors: {
+      type: "json",
+      resolve: (doc) => doc.author.split(","),
     },
   },
 }));
