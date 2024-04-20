@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { contentDirectory, metaPath } from "../../contentlayer.config";
-import { Chapter, Markdown, Meta } from "../../.contentlayer/types";
+import { Chapter, Markdown, Meta } from "../../.contentlayer/generated";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

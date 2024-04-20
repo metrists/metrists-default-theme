@@ -13,7 +13,7 @@ export default function Index() {
   const { meta } = useLoaderData<typeof loader>();
 
   return (
-    <div className="relative m-auto flex w-full  flex-col md:h-full md:flex-row">
+    <div className="relative m-auto w-full md:h-full">
       <BookOverview
         title={meta.title}
         cover="/default-cover.svg"
@@ -39,6 +39,13 @@ export default function Index() {
           imageContainerClassName: "max-h-[300px]",
         }}
       />
+      <div className="pt-4">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: meta.body.html,
+          }}
+        />
+      </div>
     </div>
   );
 }

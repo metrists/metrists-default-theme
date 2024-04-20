@@ -3,9 +3,11 @@ import { Outlet, useLoaderData } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
 import { getMeta } from "~/utils/content-layer.server";
+import { invariant } from "~/utils/invariant";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const meta = await getMeta();
+  invariant(meta, "Meta not found");
   return json({ meta });
 };
 
