@@ -14,12 +14,14 @@ import { getClientEnvironments } from "@utils/environment.server";
 import { getTheme } from "@utils/theme.server";
 import { getHints } from "@utils/client-hints";
 import { useNonce } from "@utils/hooks/use-nonce";
-import stylesheet from "~/tailwind.css";
 import { useTheme } from "./utils/hooks/use-theme";
+import stylesheet from "~/tailwind.css";
+import readerStyles from "~/reader.css";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
+  { rel: "stylesheet", href: readerStyles },
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {

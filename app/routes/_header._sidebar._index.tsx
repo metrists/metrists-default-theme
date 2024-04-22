@@ -3,9 +3,12 @@ import { useLoaderData } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "../components/patterns/book-overview";
 import { getMeta } from "../utils/content-layer.server";
+import { Reader } from "~/components/patterns/reader";
+import { invariantResponse } from "~/utils/invariant";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const meta = await getMeta();
+  invariantResponse(meta, "Meta data not found");
   return json({ meta });
 };
 
@@ -40,11 +43,7 @@ export default function Index() {
         }}
       />
       <div className="pt-4">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: meta.body.html,
-          }}
-        />
+        <Reader markdown={meta.body} />
       </div>
     </div>
   );
