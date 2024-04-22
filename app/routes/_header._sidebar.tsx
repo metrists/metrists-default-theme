@@ -1,18 +1,20 @@
 import { json, type LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData, Link } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
-import { getMeta } from "~/utils/content-layer.server";
+import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
 
 export const loader = async () => {
-  const meta = await getMeta();
+  const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
+
   invariant(meta, "Meta not found");
-  return json({ meta });
+  invariant(chapters, "Chapters not found");
+  return json({ meta, chapters });
 };
 
 export default function Index() {
-  const { meta } = useLoaderData<typeof loader>();
+  const { meta, chapters } = useLoaderData<typeof loader>();
 
   return (
     <div className="relative flex flex-col md:h-full md:flex-row">
@@ -49,7 +51,13 @@ export default function Index() {
           </div>
           <div className="py-2">
             <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Chapters</h2>
-            <div className="space-y-1"></div>
+            <div className="space-y-1">
+              {chapters.map((chapter: (typeof chapters)[0]) => (
+                <Link href={chapter.slug} key={chapter.slug} className="block px-4 py-2 text-sm">
+                  {chapter.title}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
