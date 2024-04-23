@@ -2,6 +2,7 @@ import { json, type LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData, Link } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
+import { Button } from "~/components/ui/button";
 import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
 
@@ -50,13 +51,24 @@ export default function Index() {
             />
           </div>
           <div className="py-2">
-            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Chapters</h2>
-            <div className="space-y-1">
-              {chapters.map((chapter: (typeof chapters)[0]) => (
-                <Link href={chapter.slug} key={chapter.slug} className="block px-4 py-2 text-sm">
-                  {chapter.title}
-                </Link>
-              ))}
+            <div className="px-3 py-2">
+              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Popular</h2>
+              <div className="space-y-1">
+                <ul>
+                  {chapters.map((chapter) => (
+                    <li key={`nav_chapters_links_${chapter.slug}`}>
+                      <Button
+                        asChild
+                        variant="ghost"
+                        className="w-full justify-start gap-2 text-wrap text-left h-auto"
+                        title={chapter.title}
+                      >
+                        <Link to={`/${chapter.slug}`}>{chapter.title}</Link>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
