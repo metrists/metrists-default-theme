@@ -23,10 +23,10 @@ export default function Index() {
         <div className="flex w-full items-center justify-start gap-2"></div>
       </div>
       <div className="m-auto grid grid-cols-6">
-        <div className="p-8 col-span-4">
+        <div className="p-8 col-span-6 md:col-span-4">
           <Outlet />
         </div>
-        <div className="col-span-2 space-y-4 border-l py-5 ">
+        <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
           <div className="px-3 py-2">
             <BookOverview
               title={meta.title}
