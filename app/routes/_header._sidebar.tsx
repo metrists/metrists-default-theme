@@ -52,7 +52,7 @@ export default function Index() {
           </div>
           <div className="py-2">
             <div className="px-3 py-2">
-              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Popular</h2>
+              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Chapters</h2>
               <div className="space-y-1">
                 <ul>
                   {chapters.map((chapter) => (
