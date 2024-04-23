@@ -18,15 +18,15 @@ export default function Index() {
   const { meta, chapters } = useLoaderData<typeof loader>();
 
   return (
-    <div className="relative flex flex-col md:h-full md:flex-row">
+    <div className="relative max-w-4xl m-auto">
       <div className="sticky top-0 z-10 w-full space-y-4 bg-background px-4 py-2 md:hidden">
         <div className="flex w-full items-center justify-start gap-2"></div>
       </div>
-      <div className="m-auto flex w-full max-w-screen-lg justify-start">
-        <div className="p-8">
+      <div className="m-auto grid grid-cols-6">
+        <div className="p-8 col-span-4">
           <Outlet />
         </div>
-        <div className="hidden h-full min-h-screen  w-[266px] min-w-[266px] space-y-4 border-l py-5 md:sticky md:top-0 md:block">
+        <div className="col-span-2 space-y-4 border-l py-5 ">
           <div className="px-3 py-2">
             <BookOverview
               title={meta.title}
