@@ -22,8 +22,8 @@ export default function Index() {
       <div className="sticky top-0 z-10 w-full space-y-4 bg-background px-4 py-2 md:hidden">
         <div className="flex w-full items-center justify-start gap-2"></div>
       </div>
-      <div className="m-auto grid grid-cols-6">
-        <div className="p-8 col-span-6 md:col-span-4">
+      <div className="m-auto grid grid-cols-7">
+        <div className="p-8 col-span-7 md:col-span-5">
           <Outlet />
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
@@ -41,7 +41,7 @@ export default function Index() {
                 },
                 {
                   label: <Share size={16} />,
-                  action: () => alert("Share"),
+                  action: `/${chapters[0]?.slug}`,
                   buttonProps: { size: "sm", variant: "secondary" },
                 },
               ]}
@@ -63,7 +63,9 @@ export default function Index() {
                         className="w-full justify-start gap-2 text-wrap text-left h-auto"
                         title={chapter.title}
                       >
-                        <Link to={`/${chapter.slug}`}>{chapter.title}</Link>
+                        <Link to={`/${chapter.slug}`} prefetch="intent">
+                          {chapter.title}
+                        </Link>
                       </Button>
                     </li>
                   ))}

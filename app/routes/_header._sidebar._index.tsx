@@ -2,18 +2,19 @@ import { json, type LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "../components/patterns/book-overview";
-import { getMeta } from "../utils/content-layer.server";
+import { getChaptersWithoutBody, getMeta } from "../utils/content-layer.server";
 import { Reader } from "~/components/patterns/reader";
 import { invariantResponse } from "~/utils/invariant";
 
 export const loader = async () => {
   const meta = await getMeta();
   invariantResponse(meta, "Meta data not found");
-  return json({ meta });
+  const firstChapter = (await getChaptersWithoutBody())[0];
+  return json({ meta, firstChapter });
 };
 
 export default function Index() {
-  const { meta } = useLoaderData<typeof loader>();
+  const { meta, firstChapter } = useLoaderData<typeof loader>();
 
   return (
     <div className="relative m-auto w-full md:h-full">
@@ -22,10 +23,15 @@ export default function Index() {
         cover="/default-cover.svg"
         authors={meta.authors}
         actions={[
-          {
-            label: "Start Reading",
-            action: "/chapters/1",
-          },
+          ...(firstChapter
+            ? [
+                {
+                  label: "Start Reading",
+                  action: `/${firstChapter.slug}`,
+                  linkProps: { rel: "intent" },
+                },
+              ]
+            : []),
           {
             label: "Download Epub",
             action: "/epub.md",
