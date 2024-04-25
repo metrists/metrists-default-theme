@@ -1,5 +1,6 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import highlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 
 export const contentDirectory = "content";
 export const metaPath = "meta.md";
@@ -51,5 +52,5 @@ export const Meta = defineDocumentType(() => ({
 export default makeSource({
   contentDirPath: contentDirectory,
   documentTypes: [Chapter, Meta],
-  markdown: { rehypePlugins: [highlight] },
+  markdown: { rehypePlugins: [highlight], remarkPlugins: [remarkGfm] },
 });
