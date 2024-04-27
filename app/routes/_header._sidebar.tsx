@@ -11,11 +11,11 @@ export const loader = async () => {
 
   invariant(meta, "Meta not found");
   invariant(chapters, "Chapters not found");
-  return json({ meta, chapters });
+  return json({ meta, chapters , firstChapter: chapters[0] });
 };
 
 export default function Index() {
-  const { meta, chapters } = useLoaderData<typeof loader>();
+  const { meta, chapters , firstChapter } = useLoaderData<typeof loader>();
 
   return (
     <div className="relative max-w-4xl m-auto">
@@ -41,7 +41,7 @@ export default function Index() {
                 },
                 {
                   label: <Share size={16} />,
-                  action: `/${chapters[0]?.slug}`,
+                  action: `/${firstChapter?.slug}`,
                   buttonProps: { size: "sm", variant: "secondary" },
                 },
               ]}
