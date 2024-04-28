@@ -13,27 +13,26 @@ export interface ChapterNavigationProps {
 export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigationProps) {
   const [previousChapter, nextChapter] = navigation;
   return (
-    <div className="align-center flex w-full items-center justify-between gap-2 ">
+    <div className="align-center flex w-full items-center justify-between">
       <div className="flex gap-2">
         <Button
           variant="secondary"
-          size="sm"
-          className="text-md flex gap-2"
+          size="lg"
+          className="text-md flex gap-2 px-4"
           aria-disabled
           disabled
           title={`Play Audio`}
         >
           <PlayIcon size="16" />
         </Button>
-        {/* <Button */}
-        {/*   variant="secondary" */}
-        {/*   size="sm" */}
-        {/*   className="text-md flex gap-2" */}
-        {/*   onClick={onShare} */}
-        {/*   title={`Share ${book.title}`} */}
-        {/* > */}
-        {/*   <ShareIcon size="16" /> */}
-        {/* </Button> */}
+        <Button
+          variant="secondary"
+          size="lg"
+          className="text-md flex gap-2 px-4"
+          title={`Share ${meta.title}`}
+        >
+          <ShareIcon size="16" />
+        </Button>
       </div>
       <div className="flex gap-2">
         <ConditionallyWrap
@@ -48,7 +47,8 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
           <Button
             title="Go to Previous Chapter"
             variant="default"
-            size="sm"
+            size="lg"
+            className="p-4"
             disabled={!previousChapter}
           >
             <ChevronLeftIcon size="16" />
@@ -63,7 +63,13 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
             prefetch: "render",
           }}
         >
-          <Button title="Go to Next Chapter" variant="default" size="sm" disabled={!nextChapter}>
+          <Button
+            title="Go to Next Chapter"
+            variant="default"
+            size="lg"
+            className="p-4"
+            disabled={!nextChapter}
+          >
             <ChevronRightIcon size="16" />
           </Button>
         </ConditionallyWrap>

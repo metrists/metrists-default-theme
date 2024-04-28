@@ -38,7 +38,7 @@ export default function Index() {
               <img
                 src="/default-cover.svg"
                 alt={meta.title}
-                className="aspect-square w-16 h-16 object-cover rounded-md"
+                className="aspect-square w-12 h-12 object-cover rounded-md"
               />
             </Link>
           </div>
