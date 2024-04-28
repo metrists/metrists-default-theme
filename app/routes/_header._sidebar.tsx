@@ -11,19 +11,16 @@ export const loader = async () => {
 
   invariant(meta, "Meta not found");
   invariant(chapters, "Chapters not found");
-  return json({ meta, chapters , firstChapter: chapters[0] });
+  return json({ meta, chapters, firstChapter: chapters[0] });
 };
 
 export default function Index() {
-  const { meta, chapters , firstChapter } = useLoaderData<typeof loader>();
+  const { meta, chapters, firstChapter } = useLoaderData<typeof loader>();
 
   return (
-    <div className="relative max-w-4xl m-auto">
-      <div className="sticky top-0 z-10 w-full space-y-4 bg-background px-4 py-2 md:hidden">
-        <div className="flex w-full items-center justify-start gap-2"></div>
-      </div>
+    <div className="relative max-w-4xl m-auto flex flex-col">
       <div className="m-auto grid grid-cols-7">
-        <div className="p-8 col-span-7 md:col-span-5">
+        <div className="p-4 col-span-7 md:col-span-5 md:p-8">
           <Outlet />
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">

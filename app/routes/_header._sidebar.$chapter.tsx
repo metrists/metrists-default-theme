@@ -16,8 +16,9 @@ export default function Index() {
 
   return (
     <div className="relative m-auto w-full md:h-full">
-      <div className="pt-4">
-        <Reader markdown={chapter.body} />
+      <Reader markdown={chapter.body} />
+      <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background px-4 py-2 md:hidden">
+        <div className="flex w-full items-center justify-start gap-2">we are in chapters</div>
       </div>
     </div>
   );
