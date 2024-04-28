@@ -24,16 +24,16 @@ export default function Index() {
   const mode = optimisticMode ?? userPreferences?.theme ?? "system";
   const nextMode = mode === "system" ? "light" : mode === "light" ? "dark" : "light";
   const modeLabel = {
-    light: <SunIcon />,
-    dark: <MoonIcon />,
-    system: <UserCogIcon />,
+    light: <SunIcon size="16" />,
+    dark: <MoonIcon size="16" />,
+    system: <UserCogIcon size="16" />,
   };
 
   return (
     <>
       <div>
-        <div className="flex justify-between align-center h-[80px]">
-          <div className="flex items-center mx-8">
+        <div className="flex justify-between align-center h-[80px] px-4 md:px-8">
+          <div className="flex items-center">
             <Link to="/" title={`${meta.title} Cover`} prefetch="intent">
               <img
                 src="/default-cover.svg"
@@ -42,11 +42,11 @@ export default function Index() {
               />
             </Link>
           </div>
-          <div className="mx-8 flex items-center">
+          <div className="flex items-center">
             <fetcher.Form method="post" action="/preferences/theme">
               <input type="hidden" name="theme" value={nextMode} />
               <input type="hidden" name="intent" value="update-theme" />
-              <Button variant="secondary" className="rounded-lg px-2 py-2" type="submit">
+              <Button variant="secondary" className="rounded-lg py-6 px-4" size="lg" type="submit">
                 {modeLabel[nextMode as Theme]}
               </Button>
             </fetcher.Form>

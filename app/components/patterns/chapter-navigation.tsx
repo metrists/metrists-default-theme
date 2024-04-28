@@ -18,7 +18,7 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
         <Button
           variant="secondary"
           size="lg"
-          className="text-md flex gap-2 px-4"
+          className="text-md flex py-6 px-4"
           aria-disabled
           disabled
           title={`Play Audio`}
@@ -28,7 +28,7 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
         <Button
           variant="secondary"
           size="lg"
-          className="text-md flex gap-2 px-4"
+          className="text-md flex gap-2 py-6 px-4"
           title={`Share ${meta.title}`}
         >
           <ShareIcon size="16" />
@@ -48,7 +48,7 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
             title="Go to Previous Chapter"
             variant="default"
             size="lg"
-            className="p-4"
+            className="py-6 px-4"
             disabled={!previousChapter}
           >
             <ChevronLeftIcon size="16" />
@@ -67,7 +67,7 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
             title="Go to Next Chapter"
             variant="default"
             size="lg"
-            className="p-4"
+            className="py-6 px-4"
             disabled={!nextChapter}
           >
             <ChevronRightIcon size="16" />
