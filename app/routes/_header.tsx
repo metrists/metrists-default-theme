@@ -1,11 +1,19 @@
-import { useFetcher, useOutletContext, Outlet, type MetaFunction } from "@remix-run/react";
+import { LoaderFunction, json } from "@remix-run/node";
+import { useFetcher, useOutletContext, Outlet, useLoaderData, Link } from "@remix-run/react";
+import { MoonIcon, SunIcon, UserCogIcon } from "lucide-react";
 import { Separator } from "@components/ui/separator";
 import { Button } from "@components/ui/button";
-import { MoonIcon, SunIcon, UserCogIcon } from "lucide-react";
+import { getMeta } from "~/utils/content-layer.server";
 import { useOptimisticThemeMode } from "@utils/hooks/use-theme";
 import type { Theme } from "@utils/theme.server";
 
+export const loader: LoaderFunction = async () => {
+  const meta = await getMeta();
+  return json({ meta });
+};
+
 export default function Index() {
+  const { meta } = useLoaderData<typeof loader>();
   const fetcher = useFetcher({});
 
   const { userPreferences } = useOutletContext<{
@@ -25,7 +33,15 @@ export default function Index() {
     <>
       <div>
         <div className="flex justify-between align-center h-[80px]">
-          <div className="flex items-center"></div>
+          <div className="flex items-center mx-8">
+            <Link to="/" title={`${meta.title} Cover`} prefetch="intent">
+              <img
+                src="/default-cover.svg"
+                alt={meta.title}
+                className="aspect-square w-16 h-16 object-cover rounded-md"
+              />
+            </Link>
+          </div>
           <div className="mx-8 flex items-center">
             <fetcher.Form method="post" action="/preferences/theme">
               <input type="hidden" name="theme" value={nextMode} />
