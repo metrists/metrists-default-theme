@@ -6,6 +6,7 @@ import { getChaptersWithoutBody, getMeta } from "../utils/content-layer.server";
 import { Reader } from "~/components/patterns/reader";
 import { invariantResponse } from "~/utils/invariant";
 import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
+import { Drawer } from "~/components/ui/drawer";
 
 export const loader = async () => {
   const meta = await getMeta();
@@ -52,13 +53,15 @@ export default function Index() {
       <div className="pt-4">
         <Reader markdown={meta.body} />
       </div>
-      <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
-        <ChapterNavigation
-          navigation={[undefined, undefined]}
-          meta={meta}
-          chapters={[firstChapter]}
-        />
-      </div>
+      <Drawer>
+        <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
+          <ChapterNavigation
+            navigation={[undefined, undefined]}
+            meta={meta}
+            chapters={[firstChapter]}
+          />
+        </div>
+      </Drawer>
     </div>
   );
 }

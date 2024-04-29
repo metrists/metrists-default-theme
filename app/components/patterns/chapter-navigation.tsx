@@ -1,13 +1,14 @@
 import { Link } from "@remix-run/react";
-import { ShareIcon, ChevronRightIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
+import { ListIcon, ChevronRightIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { ConditionallyWrap } from "./conditionally-wrap";
+import { Drawer, DrawerContent, DrawerTrigger } from "@components/ui/drawer";
 import type { Chapter, Meta } from ".contentlayer/generated";
 
 export interface ChapterNavigationProps {
   meta: Meta;
   navigation: [Chapter | undefined, Chapter | undefined];
-  chapters: Chapter;
+  chapters: Chapter[];
 }
 
 export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigationProps) {
@@ -25,14 +26,37 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
         >
           <PlayIcon size="16" />
         </Button>
-        <Button
-          variant="secondary"
-          size="lg"
-          className="text-md flex gap-2 py-6 px-4"
-          title={`Share ${meta.title}`}
-        >
-          <ShareIcon size="16" />
-        </Button>
+        <Drawer modal={false}>
+          <DrawerTrigger asChild>
+            <Button
+              variant="secondary"
+              size="lg"
+              className="text-md flex gap-2 py-6 px-4"
+              title={`Chapters`}
+            >
+              <ListIcon size="16" />
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <div className="p-4">
+              <ul>
+                {chapters.map((chapter) => (
+                  <li key={`mobile_chapters_${chapter.slug}_mobile`}>
+                    <Link to={`/${chapter.slug}`} prefetch="render" className="block">
+                      <Button
+                        variant="ghost"
+                        className="h-auto w-full justify-start gap-2 text-left"
+                        title={`Read Chapter Named ${chapter.title}`}
+                      >
+                        {chapter.title}
+                      </Button>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
       <div className="flex gap-2">
         <ConditionallyWrap
