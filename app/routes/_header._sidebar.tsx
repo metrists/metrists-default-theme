@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, json } from "@remix-run/node";
+import { type LoaderFunctionArgs, json, type MetaFunction } from "@remix-run/node";
 import { Outlet, useLoaderData, Link, ShouldRevalidateFunction } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
@@ -17,7 +17,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
   invariant(meta, "Meta not found");
   invariant(chapters, "Chapters not found");
-  let currentChapter: ChapterLike | null = null;
+  let currentChapter: ChapterLike | undefined;
   if (params.chapter) {
     const currentChapterIndex = getSlugChapterIndex(params.chapter, chapters);
     invariant(currentChapterIndex !== undefined, "Chapter not found");
@@ -25,6 +25,16 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
   const navigation = getChapterNavigation(currentChapter, chapters);
   return json({ meta, chapters, navigation, currentChapter });
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  let title = data?.meta?.title;
+  if (data?.currentChapter) {
+    title += ` | ${data.currentChapter.title}`;
+  }
+
+  //TODO: add description and tags to meta
+  return [{ title }];
 };
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({ currentParams, nextParams }) => {

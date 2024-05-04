@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, json, type LoaderFunction } from "@remix-run/node";
+import { type LoaderFunctionArgs, json, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Reader } from "~/components/patterns/reader";
 import { getChapter } from "../utils/content-layer.server";

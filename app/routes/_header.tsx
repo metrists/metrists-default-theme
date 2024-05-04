@@ -1,4 +1,4 @@
-import { LoaderFunction, json } from "@remix-run/node";
+import { type LoaderFunction, type MetaFunction, json } from "@remix-run/node";
 import { useFetcher, useOutletContext, Outlet, useLoaderData, Link } from "@remix-run/react";
 import { MoonIcon, SunIcon, UserCogIcon } from "lucide-react";
 import { Separator } from "@components/ui/separator";
@@ -7,7 +7,7 @@ import { getMeta } from "~/utils/content-layer.server";
 import { useOptimisticThemeMode } from "@utils/hooks/use-theme";
 import type { Theme } from "@utils/theme.server";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const meta = await getMeta();
   return json({ meta });
 };

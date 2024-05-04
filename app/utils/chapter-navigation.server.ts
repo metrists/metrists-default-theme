@@ -10,7 +10,7 @@ export function getChapterNavigation(
   chapters: ChapterLike[]
 ): ChapterNavigationProps["navigation"] {
   const slug = currentChapter?.slug;
-  const index = slug ? getSlugChapterIndex(slug, chapters) : 0;
+  const index = slug ? getSlugChapterIndex(slug, chapters) : -1;
   return [chapters[index - 1], chapters[index + 1]];
 }
 
