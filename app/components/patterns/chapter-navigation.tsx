@@ -34,7 +34,7 @@ export function ChapterNavigation({
         <Drawer
           onOpenChange={(open) => {
             if (!open) {
-              document.querySelector("body").removeAttribute("data-scroll-locked");
+              document.querySelector("body")?.removeAttribute("data-scroll-locked");
             }
           }}
         >

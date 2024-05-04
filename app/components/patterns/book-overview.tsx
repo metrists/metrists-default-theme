@@ -75,7 +75,7 @@ export function BookOverview({
       <div className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-muted-foreground">
         {authors?.join(", ")} {formattedDatePublished ? `• ${formattedDatePublished}` : ""}
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {actions?.map(
           ({ label, action, buttonProps, linkProps }: BookOverviewActionProps, index: number) =>
             typeof action === "string" ? (
