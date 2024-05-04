@@ -11,7 +11,7 @@ export interface ChapterNavigationProps {
   chapters: Chapter[];
 }
 
-export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigationProps) {
+export function ChapterNavigation({ navigation, chapters }: ChapterNavigationProps) {
   const [previousChapter, nextChapter] = navigation;
   return (
     <div className="align-center flex w-full items-center justify-between">
@@ -22,41 +22,39 @@ export function ChapterNavigation({ meta, navigation, chapters }: ChapterNavigat
           className="text-md flex py-6 px-4"
           aria-disabled
           disabled
-          title={`Play Audio`}
+          title="Play Audio"
         >
           <PlayIcon size="16" />
         </Button>
-        <Drawer modal={false}>
-          <DrawerTrigger asChild>
-            <Button
-              variant="secondary"
-              size="lg"
-              className="text-md flex gap-2 py-6 px-4"
-              title={`Chapters`}
-            >
-              <ListIcon size="16" />
-            </Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <div className="p-4">
-              <ul>
-                {chapters.map((chapter) => (
-                  <li key={`mobile_chapters_${chapter.slug}_mobile`}>
-                    <Link to={`/${chapter.slug}`} prefetch="render" className="block">
-                      <Button
-                        variant="ghost"
-                        className="h-auto w-full justify-start gap-2 text-left"
-                        title={`Read Chapter Named ${chapter.title}`}
-                      >
-                        {chapter.title}
-                      </Button>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </DrawerContent>
-        </Drawer>
+        <DrawerTrigger asChild>
+          <Button
+            variant="secondary"
+            size="lg"
+            className="text-md flex gap-2 py-6 px-4"
+            title="Chapters"
+          >
+            <ListIcon size="16" />
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className="p-4">
+            <ul>
+              {chapters.map((chapter) => (
+                <li key={`mobile_chapters_${chapter.slug}_mobile`}>
+                  <Link to={`/${chapter.slug}`} prefetch="render" className="block">
+                    <Button
+                      variant="ghost"
+                      className="h-auto w-full justify-start gap-2 text-left text-wrap"
+                      title={`Read Chapter Named ${chapter.title}`}
+                    >
+                      {chapter.title}
+                    </Button>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </DrawerContent>
       </div>
       <div className="flex gap-2">
         <ConditionallyWrap

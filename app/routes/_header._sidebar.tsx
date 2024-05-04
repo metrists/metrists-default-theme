@@ -1,27 +1,42 @@
 import { json, type LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData, Link } from "@remix-run/react";
+import { Outlet, useLoaderData, Link, ShouldRevalidateFunction } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
 import { Button } from "~/components/ui/button";
-import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
+import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
+import { getChapter, getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
+import { Drawer } from "~/components/ui/drawer";
 
-export const loader = async () => {
+export const loader = async ({ params }) => {
   const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
-
   invariant(meta, "Meta not found");
   invariant(chapters, "Chapters not found");
-  return json({ meta, chapters, firstChapter: chapters[0] });
+  return json({ meta, chapters });
+};
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({ currentParams, nextParams }) => {
+  return currentParams.chapter !== nextParams.chapter;
 };
 
 export default function Index() {
-  const { meta, chapters, firstChapter } = useLoaderData<typeof loader>();
+  const { meta, chapters } = useLoaderData<typeof loader>();
+  const firstChapter = chapters[0];
 
   return (
     <div className="relative max-w-4xl m-auto flex flex-col">
       <div className="m-auto grid grid-cols-7">
         <div className="p-4 col-span-7 md:col-span-5 md:p-8">
           <Outlet />
+          <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
+            <Drawer>
+              <ChapterNavigation
+                navigation={[undefined, undefined]}
+                meta={meta}
+                chapters={chapters}
+              />
+            </Drawer>
+          </div>
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
           <div className="px-3 py-2">

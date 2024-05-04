@@ -9,17 +9,18 @@ import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
 import { Drawer } from "~/components/ui/drawer";
 
 export const loader = async () => {
-  const meta = await getMeta();
+  const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
   invariantResponse(meta, "Meta data not found");
-  const firstChapter = (await getChaptersWithoutBody())[0];
-  return json({ meta, firstChapter });
+  return json({ meta, chapters });
 };
 
 export default function Index() {
-  const { meta, firstChapter } = useLoaderData<typeof loader>();
+  const { meta, chapters } = useLoaderData<typeof loader>();
+
+  const firstChapter = chapters[0];
 
   return (
-    <div className="relative m-auto w-full md:h-full">
+    <>
       <BookOverview
         title={meta.title}
         cover="/default-cover.svg"
@@ -53,15 +54,6 @@ export default function Index() {
       <div className="pt-4">
         <Reader markdown={meta.body} />
       </div>
-      <Drawer>
-        <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
-          <ChapterNavigation
-            navigation={[undefined, undefined]}
-            meta={meta}
-            chapters={[firstChapter]}
-          />
-        </div>
-      </Drawer>
-    </div>
+    </>
   );
 }
