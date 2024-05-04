@@ -10,9 +10,9 @@ export const Chapter = defineDocumentType(() => ({
   filePathPattern: `**/*.md`,
   fields: {
     title: { type: "string", required: true },
+    index: { type: "number", required: true },
     date: { type: "date", required: false },
     author: { type: "string", required: false },
-    tags: { type: "json", required: false, default: [] },
     description: { type: "string", required: false },
     updated: { type: "date", required: false },
   },
@@ -40,7 +40,6 @@ export const Meta = defineDocumentType(() => ({
     author: { type: "string", required: true },
     date: { type: "date", required: false },
     tags: { type: "json", required: false, default: [] },
-    updated: { type: "date", required: false },
   },
   computedFields: {
     authors: {

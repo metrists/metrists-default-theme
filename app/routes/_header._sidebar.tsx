@@ -1,4 +1,4 @@
-import { json, type LoaderFunction } from "@remix-run/node";
+import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { Outlet, useLoaderData, Link, ShouldRevalidateFunction } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
@@ -8,7 +8,7 @@ import { getChapter, getChaptersWithoutBody, getMeta } from "~/utils/content-lay
 import { invariant } from "~/utils/invariant";
 import { Drawer } from "~/components/ui/drawer";
 
-export const loader = async ({ params }) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
   invariant(meta, "Meta not found");
   invariant(chapters, "Chapters not found");

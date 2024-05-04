@@ -22,16 +22,18 @@ export async function getChapters(): Promise<Array<Chapter>> {
   // const dir = await fs.readdir(CONTENT_POST_DIR)
   const dir = await fs.readdir(CONTENT_SRC_CHAPTER_DIR);
 
-  return Promise.all(
-    dir
-      .map((filename) => {
-        if (filename === metaPath) {
-          return null;
-        }
-        return getJsonData<Chapter>(path.join(CONTENT_CHAPTER_DIR, `${filename}.json`));
-      })
-      .filter(Boolean) as Promise<Chapter>[]
-  );
+  return (
+    await Promise.all(
+      dir
+        .map((filename) => {
+          if (filename === metaPath) {
+            return null;
+          }
+          return getJsonData<Chapter>(path.join(CONTENT_CHAPTER_DIR, `${filename}.json`));
+        })
+        .filter(Boolean) as Promise<Chapter>[]
+    )
+  ).sort((chapterPrev: Chapter, chapterNext: Chapter) => chapterPrev.index - chapterNext.index);
 }
 
 export async function getPostSourceFilenames(): Promise<Array<string>> {
