@@ -5,8 +5,6 @@ import { BookOverview } from "../components/patterns/book-overview";
 import { getChaptersWithoutBody, getMeta } from "../utils/content-layer.server";
 import { Reader } from "~/components/patterns/reader";
 import { invariantResponse } from "~/utils/invariant";
-import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
-import { Drawer } from "~/components/ui/drawer";
 
 export const loader = async () => {
   const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
