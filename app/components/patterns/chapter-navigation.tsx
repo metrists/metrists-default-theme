@@ -31,7 +31,13 @@ export function ChapterNavigation({
         >
           <PlayIcon size="16" />
         </Button>
-        <Drawer>
+        <Drawer
+          onOpenChange={(open) => {
+            if (!open) {
+              document.querySelector("body").removeAttribute("data-scroll-locked");
+            }
+          }}
+        >
           <DrawerTrigger asChild>
             <Button
               variant="secondary"

@@ -4,9 +4,8 @@ import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
 import { Button } from "~/components/ui/button";
 import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
-import { getChaptersWithoutBody, getMeta, getChapter } from "~/utils/content-layer.server";
+import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
-import { Drawer } from "~/components/ui/drawer";
 import {
   type ChapterLike,
   getChapterNavigation,
@@ -48,17 +47,15 @@ export default function Index() {
   return (
     <div className="relative max-w-4xl m-auto flex flex-col">
       <div className="w-full grid grid-cols-7">
-        <div className="p-4 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8">
+        <div className="p-4 pb-0 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8 md:pb-0">
           <Outlet />
           <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
-            <Drawer>
-              <ChapterNavigation
-                navigation={navigation}
-                meta={meta}
-                chapters={chapters}
-                currentChapter={currentChapter}
-              />
-            </Drawer>
+            <ChapterNavigation
+              navigation={navigation}
+              meta={meta}
+              chapters={chapters}
+              currentChapter={currentChapter}
+            />
           </div>
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
