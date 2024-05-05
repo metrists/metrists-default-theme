@@ -4,17 +4,23 @@ import { Share } from "lucide-react";
 import { BookOverview } from "../components/patterns/book-overview";
 import { getChaptersWithoutBody, getMeta } from "../utils/content-layer.server";
 import { Reader } from "~/components/patterns/reader";
+import { useToast } from "~/components/ui/use-toast";
 import { invariantResponse } from "~/utils/invariant";
+import { shareMetaCurry } from "~/utils/share";
 
 export const loader = async () => {
-  const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
+  const [meta, chapters] = await Promise.all([
+    getMeta(),
+    getChaptersWithoutBody(),
+  ]);
   invariantResponse(meta, "Meta data not found");
   return json({ meta, chapters });
 };
 
 export default function Index() {
   const { meta, chapters } = useLoaderData<typeof loader>();
-
+  const { toast } = useToast();
+  const shareMeta = shareMetaCurry(toast, meta);
   const firstChapter = chapters[0];
 
   return (
@@ -41,7 +47,7 @@ export default function Index() {
           },
           {
             label: <Share size={16} />,
-            action: () => alert("Share"),
+            action: shareMeta,
             buttonProps: { variant: "secondary", className: "px-3" },
           },
         ]}

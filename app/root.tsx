@@ -10,7 +10,7 @@ import {
   json,
   useLoaderData,
 } from "@remix-run/react";
-import { Toaster } from '~/components/ui/toaster'
+import { Toaster } from "~/components/ui/toaster";
 import { getClientEnvironments } from "@utils/environment.server";
 import { getTheme } from "@utils/theme.server";
 import { getHints } from "@utils/client-hints";

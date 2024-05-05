@@ -1,11 +1,18 @@
 import { Link } from "@remix-run/react";
-import { ListIcon, ChevronRightIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
+import {
+  ListIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  PlayIcon,
+} from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { ConditionallyWrap } from "./conditionally-wrap";
 import { Drawer, DrawerContent, DrawerTrigger } from "@components/ui/drawer";
 import type { Chapter } from ".contentlayer/generated";
-import type { ChapterLike, ChapterNavigation } from "~/utils/chapter-navigation.server";
-
+import type {
+  ChapterLike,
+  ChapterNavigation,
+} from "~/utils/chapter-navigation.server";
 export interface ChapterNavigationProps {
   currentChapter: ChapterLike | undefined;
   navigation: ChapterNavigation;
@@ -23,13 +30,13 @@ export function ChapterNavigation({
   return (
     <div className="align-center flex w-full items-center justify-between">
       <div className="flex gap-2">
-        {
-          children ? children : <></> 
-        }
+        {children ? children : <></>}
         <Drawer
           onOpenChange={(open) => {
             if (!open) {
-              document.querySelector("body")?.removeAttribute("data-scroll-locked");
+              document
+                .querySelector("body")
+                ?.removeAttribute("data-scroll-locked");
             }
           }}
         >
@@ -48,9 +55,17 @@ export function ChapterNavigation({
               <ul>
                 {chapters.map((chapter) => (
                   <li key={`mobile_chapters_${chapter.slug}_mobile`}>
-                    <Link to={`/${chapter.slug}`} prefetch="render" className="block">
+                    <Link
+                      to={`/${chapter.slug}`}
+                      prefetch="render"
+                      className="block"
+                    >
                       <Button
-                        variant={currentChapter?.slug === chapter.slug ? "default" : "ghost"}
+                        variant={
+                          currentChapter?.slug === chapter.slug
+                            ? "default"
+                            : "ghost"
+                        }
                         className="h-auto w-full justify-start gap-2 text-left text-wrap"
                         aria-label={`Read Chapter Named ${chapter.title}`}
                       >

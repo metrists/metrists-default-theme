@@ -22,6 +22,7 @@ import {
   getChapterNavigation,
   getSlugChapterIndex,
 } from "~/utils/chapter-navigation.server";
+import { Drawer } from "~/components/ui/drawer";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [meta, chapters] = await Promise.all([
@@ -69,22 +70,24 @@ export default function Index() {
         <div className="p-4 pb-0 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8 md:pb-0">
           <Outlet />
           <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
-            <ChapterNavigation
-              navigation={navigation}
-              meta={meta}
-              chapters={chapters}
-              currentChapter={currentChapter}
-            >
-              <Button
-                variant="secondary"
-                size="lg"
-                className="text-md flex py-6 px-4"
-                aria-label="Share"
-                onClick={shareMeta}
+            <Drawer>
+              <ChapterNavigation
+                navigation={navigation}
+                meta={meta}
+                chapters={chapters}
+                currentChapter={currentChapter}
               >
-                <Share size={16} />
-              </Button>
-            </ChapterNavigation>
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="text-md flex py-6 px-4"
+                  aria-label="Share"
+                  onClick={shareMeta}
+                >
+                  <Share size={16} />
+                </Button>
+              </ChapterNavigation>
+            </Drawer>
           </div>
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
