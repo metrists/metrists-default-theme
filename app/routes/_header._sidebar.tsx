@@ -1,19 +1,20 @@
 import {
-  type LoaderFunctionArgs,
   json,
+  type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/node";
 import {
   Outlet,
   useLoaderData,
   Link,
-  ShouldRevalidateFunction,
+  type ShouldRevalidateFunction,
 } from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
 import { Button } from "~/components/ui/button";
 import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
 import { useToast } from "~/components/ui/use-toast";
+import { shareMetaCurry } from "~/utils/share";
 import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
 import {
@@ -21,7 +22,6 @@ import {
   getChapterNavigation,
   getSlugChapterIndex,
 } from "~/utils/chapter-navigation.server";
-import { shareOrCopy } from "~/utils/share";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [meta, chapters] = await Promise.all([
@@ -61,29 +61,8 @@ export default function Index() {
   const { meta, chapters, navigation, currentChapter } =
     useLoaderData<typeof loader>();
   const { toast } = useToast();
+  const shareMeta = shareMetaCurry(toast, meta);
 
-  const shareMeta = async () => {
-    await shareOrCopy(
-      {
-        title: meta.title,
-        url: window.location.href,
-        text: meta.body.raw,
-      },
-      (_, method: "clipboard" | "share") => {
-        if (method === "clipboard") {
-          toast({
-            title: "Link Copied",
-          });
-        }
-      },
-      (_) => {
-        toast({
-          title: `Could not share`,
-          description: `It seems like your browser does not support sharing or copying links.`,
-        });
-      }
-    );
-  };
   return (
     <div className="relative max-w-4xl m-auto flex flex-col">
       <div className="w-full grid grid-cols-7">
