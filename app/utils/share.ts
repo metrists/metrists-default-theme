@@ -4,9 +4,13 @@ export interface ShareData {
   text: string;
 }
 
-export async function share(
+export async function shareOrCopy(
   { title, url, text }: ShareData,
-  fallback?: (shareData?: ShareData) => Promise<void>
+  onSuccess: (
+    shareData: ShareData,
+    method: "share" | "clipboard"
+  ) => void,
+  onFail?: (shareData?: ShareData) => void
 ) {
   if (navigator.share) {
     await navigator.share({
@@ -14,9 +18,11 @@ export async function share(
       url: url,
       text: text,
     });
+    onSuccess({ title, url, text }, "share");
   } else if (navigator.clipboard) {
     await navigator.clipboard.writeText(url);
-  } else if (fallback) {
-    await fallback({ title, url, text });
+    onSuccess({ title, url, text }, "clipboard");
+  } else if (onFail) {
+    onFail({ title, url, text });
   }
 }

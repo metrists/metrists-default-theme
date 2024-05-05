@@ -1,9 +1,19 @@
-import { type LoaderFunctionArgs, json, type MetaFunction } from "@remix-run/node";
-import { Outlet, useLoaderData, Link, ShouldRevalidateFunction } from "@remix-run/react";
+import {
+  type LoaderFunctionArgs,
+  json,
+  type MetaFunction,
+} from "@remix-run/node";
+import {
+  Outlet,
+  useLoaderData,
+  Link,
+  ShouldRevalidateFunction,
+} from "@remix-run/react";
 import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
 import { Button } from "~/components/ui/button";
 import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
+import { useToast } from "~/components/ui/use-toast";
 import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
 import {
@@ -11,9 +21,13 @@ import {
   getChapterNavigation,
   getSlugChapterIndex,
 } from "~/utils/chapter-navigation.server";
+import { shareOrCopy } from "~/utils/share";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const [meta, chapters] = await Promise.all([getMeta(), getChaptersWithoutBody()]);
+  const [meta, chapters] = await Promise.all([
+    getMeta(),
+    getChaptersWithoutBody(),
+  ]);
   invariant(meta, "Meta not found");
   invariant(chapters, "Chapters not found");
   let currentChapter: ChapterLike | undefined;
@@ -36,14 +50,40 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title }];
 };
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({ currentParams, nextParams }) => {
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  currentParams,
+  nextParams,
+}) => {
   return currentParams.chapter !== nextParams.chapter;
 };
 
 export default function Index() {
-  const { meta, chapters, navigation, currentChapter } = useLoaderData<typeof loader>();
-  const firstChapter = chapters[0];
+  const { meta, chapters, navigation, currentChapter } =
+    useLoaderData<typeof loader>();
+  const { toast } = useToast();
 
+  const shareMeta = async () => {
+    await shareOrCopy(
+      {
+        title: meta.title,
+        url: window.location.href,
+        text: meta.body.raw,
+      },
+      (_, method: "clipboard" | "share") => {
+        if (method === "clipboard") {
+          toast({
+            title: "Link Copied",
+          });
+        }
+      },
+      (_) => {
+        toast({
+          title: `Could not share`,
+          description: `It seems like your browser does not support sharing or copying links.`,
+        });
+      }
+    );
+  };
   return (
     <div className="relative max-w-4xl m-auto flex flex-col">
       <div className="w-full grid grid-cols-7">
@@ -55,7 +95,17 @@ export default function Index() {
               meta={meta}
               chapters={chapters}
               currentChapter={currentChapter}
-            />
+            >
+              <Button
+                variant="secondary"
+                size="lg"
+                className="text-md flex py-6 px-4"
+                aria-label="Share"
+                onClick={shareMeta}
+              >
+                <Share size={16} />
+              </Button>
+            </ChapterNavigation>
           </div>
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
@@ -73,7 +123,7 @@ export default function Index() {
                 },
                 {
                   label: <Share size={16} />,
-                  action: `/${firstChapter?.slug}`,
+                  action: shareMeta,
                   buttonProps: { size: "sm", variant: "secondary" },
                 },
               ]}
@@ -84,14 +134,20 @@ export default function Index() {
           </div>
           <div className="py-2">
             <div className="px-3 py-2">
-              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Chapters</h2>
+              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+                Chapters
+              </h2>
               <div className="space-y-1">
                 <ul>
                   {chapters.map((chapter) => (
                     <li key={`nav_chapters_links_${chapter.slug}`}>
                       <Button
                         asChild
-                        variant={currentChapter?.slug === chapter.slug ? "default" : "ghost"}
+                        variant={
+                          currentChapter?.slug === chapter.slug
+                            ? "default"
+                            : "ghost"
+                        }
                         className="w-full justify-start gap-2 text-wrap text-left h-auto"
                         title={chapter.title}
                       >

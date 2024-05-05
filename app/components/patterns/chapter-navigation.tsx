@@ -10,27 +10,22 @@ export interface ChapterNavigationProps {
   currentChapter: ChapterLike | undefined;
   navigation: ChapterNavigation;
   chapters: Chapter[];
+  children?: React.ReactNode;
 }
 
 export function ChapterNavigation({
   navigation,
   chapters,
   currentChapter,
+  children,
 }: ChapterNavigationProps) {
   const [previousChapter, nextChapter] = navigation;
   return (
     <div className="align-center flex w-full items-center justify-between">
       <div className="flex gap-2">
-        <Button
-          variant="secondary"
-          size="lg"
-          className="text-md flex py-6 px-4"
-          aria-disabled
-          disabled
-          title="Play Audio"
-        >
-          <PlayIcon size="16" />
-        </Button>
+        {
+          children ? children : <></> 
+        }
         <Drawer
           onOpenChange={(open) => {
             if (!open) {
@@ -57,7 +52,7 @@ export function ChapterNavigation({
                       <Button
                         variant={currentChapter?.slug === chapter.slug ? "default" : "ghost"}
                         className="h-auto w-full justify-start gap-2 text-left text-wrap"
-                        title={`Read Chapter Named ${chapter.title}`}
+                        aria-label={`Read Chapter Named ${chapter.title}`}
                       >
                         {chapter.title}
                       </Button>

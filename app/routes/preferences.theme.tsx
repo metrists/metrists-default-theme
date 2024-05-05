@@ -10,7 +10,11 @@ export const schema = z.object({
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  invariantResponse(formData.get("intent") === "update-theme", "Invalid intent", { status: 400 });
+  invariantResponse(
+    formData.get("intent") === "update-theme",
+    "Invalid intent",
+    { status: 400 }
+  );
   const submission = parse(formData, {
     schema,
   });
@@ -25,10 +29,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const responseInit = {
     headers: { "set-cookie": setTheme(theme) },
   };
-  if (request.headers.get("accept") === "application/json") {
-    return json({ success: true, submission }, responseInit);
-  } else {
-    //TODO: redirect back to where the user was
-    return redirect("/", responseInit);
-  }
+  // if (request.headers.get("accept") === "application/json") {
+  return json({ success: true, submission }, responseInit);
+  // } else {
+  //   //TODO: redirect back to where the user was
+  //   return redirect("/", responseInit);
+  // }
 }
