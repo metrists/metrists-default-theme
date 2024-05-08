@@ -60,12 +60,12 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 export default function Index() {
   const { meta, chapters, navigation, currentChapter } =
     useLoaderData<typeof loader>();
-  const shareMeta = useShare(meta)
+  const shareMeta = useShare(meta);
 
   return (
     <div className="relative max-w-4xl m-auto flex flex-col">
       <div className="w-full grid grid-cols-7">
-        <div className="p-4 pb-0 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8 md:pb-0">
+        <div className="p-4 pb-0 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8">
           <Outlet />
           <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
             <ChapterNavigation navigation={navigation} meta={meta}>
@@ -109,7 +109,7 @@ export default function Index() {
               }}
             />
           </div>
-          <div className="py-2">
+          <div className="py-2 sticky top-0">
             <div className="px-3 py-2">
               <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
                 Chapters
