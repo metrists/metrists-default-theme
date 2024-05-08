@@ -18,11 +18,11 @@ import { shareMetaCurry } from "~/utils/share";
 import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
 import {
-  type ChapterLike,
   getChapterNavigation,
   getSlugChapterIndex,
+  type ChapterLike,
 } from "~/utils/chapter-navigation.server";
-import { Drawer } from "~/components/ui/drawer";
+import { MobileChapterDrawer } from "~/components/patterns/mobile-chapter-drawer";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [meta, chapters] = await Promise.all([
@@ -70,24 +70,24 @@ export default function Index() {
         <div className="p-4 pb-0 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8 md:pb-0">
           <Outlet />
           <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
-            <Drawer>
-              <ChapterNavigation
-                navigation={navigation}
-                meta={meta}
-                chapters={chapters}
-                currentChapter={currentChapter}
+            <ChapterNavigation
+              navigation={navigation}
+              meta={meta}
+            >
+              <Button
+                variant="secondary"
+                size="lg"
+                className="text-md flex py-6 px-4"
+                aria-label="Share"
+                onClick={shareMeta}
               >
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="text-md flex py-6 px-4"
-                  aria-label="Share"
-                  onClick={shareMeta}
-                >
-                  <Share size={16} />
-                </Button>
-              </ChapterNavigation>
-            </Drawer>
+                <Share size={16} />
+              </Button>
+              <MobileChapterDrawer
+                currentChapter={currentChapter}
+                chapters={chapters}
+              />
+            </ChapterNavigation>
           </div>
         </div>
         <div className="col-span-2 space-y-4 border-l py-5 hidden md:block">
