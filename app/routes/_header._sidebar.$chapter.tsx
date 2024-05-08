@@ -51,7 +51,9 @@ export default function Index() {
           </Button>
         </ChapterNavigation>
       </div>
-      <Reader markdown={chapter.body} />
+      <div className="my-4">
+        <Reader markdown={chapter.body} />
+      </div>
       <div className="hidden md:block">
         <ChapterNavigation
           navigation={navigation}

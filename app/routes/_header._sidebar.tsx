@@ -94,9 +94,8 @@ export default function Index() {
               actions={[
                 {
                   label: "Download",
-                  action: "/epub.md",
-                  buttonProps: { size: "sm" },
-                  linkProps: { download: true },
+                  action: () => {},
+                  buttonProps: { size: "sm", disabled: true},
                 },
                 {
                   label: <Share size={16} />,

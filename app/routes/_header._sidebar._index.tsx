@@ -39,9 +39,8 @@ export default function Index() {
             : []),
           {
             label: "Download Epub",
-            action: "/epub.md",
-            linkProps: { download: true },
-            buttonProps: { variant: "secondary" },
+            action: () => {},
+            buttonProps: { variant: "secondary", disabled: true },
           },
           {
             label: <Share size={16} />,
