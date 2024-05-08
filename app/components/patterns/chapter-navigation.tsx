@@ -3,21 +3,21 @@ import {
   ChevronRightIcon,
   ChevronLeftIcon,
 } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button , ButtonProps } from "~/components/ui/button";
 import { ConditionallyWrap } from "./conditionally-wrap";
-import type { Chapter } from ".contentlayer/generated";
 import type {
-  ChapterLike,
   ChapterNavigation,
 } from "~/utils/chapter-navigation.server";
 export interface ChapterNavigationProps {
   navigation: ChapterNavigation;
+  buttonProps?: Partial<ButtonProps>;
   children?: React.ReactNode;
 }
 
 export function ChapterNavigation({
   navigation,
   children,
+  buttonProps = {}
 }: ChapterNavigationProps) {
   const [previousChapter, nextChapter] = navigation;
   return (
@@ -39,6 +39,7 @@ export function ChapterNavigation({
             size="lg"
             className="py-6 px-4"
             disabled={!previousChapter}
+            {...buttonProps}
           >
             <ChevronLeftIcon size="16" />
           </Button>
@@ -58,6 +59,7 @@ export function ChapterNavigation({
             size="lg"
             className="py-6 px-4"
             disabled={!nextChapter}
+            {...buttonProps}
           >
             <ChevronRightIcon size="16" />
           </Button>

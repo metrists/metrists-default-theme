@@ -13,8 +13,7 @@ import { Share } from "lucide-react";
 import { BookOverview } from "~/components/patterns/book-overview";
 import { Button } from "~/components/ui/button";
 import { ChapterNavigation } from "~/components/patterns/chapter-navigation";
-import { useToast } from "~/components/ui/use-toast";
-import { shareMetaCurry } from "~/utils/share";
+import { useShare } from "~/utils/hooks/use-share";
 import { getChaptersWithoutBody, getMeta } from "~/utils/content-layer.server";
 import { invariant } from "~/utils/invariant";
 import {
@@ -61,8 +60,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 export default function Index() {
   const { meta, chapters, navigation, currentChapter } =
     useLoaderData<typeof loader>();
-  const { toast } = useToast();
-  const shareMeta = shareMetaCurry(toast, meta);
+  const shareMeta = useShare(meta)
 
   return (
     <div className="relative max-w-4xl m-auto flex flex-col">
@@ -70,10 +68,7 @@ export default function Index() {
         <div className="p-4 pb-0 col-span-7 m-auto w-full md:h-full md:col-span-5 md:p-8 md:pb-0">
           <Outlet />
           <div className="sticky z-10 w-full bottom-0 space-y-4 bg-background py-2 md:hidden">
-            <ChapterNavigation
-              navigation={navigation}
-              meta={meta}
-            >
+            <ChapterNavigation navigation={navigation} meta={meta}>
               <Button
                 variant="secondary"
                 size="lg"
