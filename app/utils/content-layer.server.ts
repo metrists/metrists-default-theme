@@ -73,7 +73,7 @@ export async function getChapter(slug: string): Promise<Chapter | null> {
 export async function getMeta(): Promise<Meta | null> {
   try {
     return await getJsonData<Meta>(
-      path.join(CONTENT_LAYER_META_DIR, `${metaPath}.json`)
+      path.join(CONTENT_LAYER_META_DIR, `_index.json`)
     );
   } catch (e) {
     return null;
