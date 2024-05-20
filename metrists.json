@@ -1,4 +1,8 @@
 {
   "contentPath": ".contentlayer",
-  "assetsPath": "public"
+  "assetsPath": "public",
+  "watchScript": "npm run dev",
+  "buildScript": "npm run build",
+  "watchContentScript": "npm run dev:content",
+  "buildContentScript": "npm run build:content"
 }
