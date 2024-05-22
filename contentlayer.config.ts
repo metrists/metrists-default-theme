@@ -3,11 +3,13 @@ import highlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 export const contentDirectory = "content";
-export const metaPath = "meta.md";
+export const metaFileName = "meta";
+export const metaPath = `${metaFileName}.md`;
 
 export const Chapter = defineDocumentType(() => ({
   name: "Chapter",
-  filePathPattern: `**/*.md`,
+  //any pattern other than metapth
+  filePathPattern: `**/!(*${metaFileName}).md`,
   fields: {
     title: { type: "string", required: true },
     index: { type: "number", required: true },
@@ -49,6 +51,6 @@ export const Meta = defineDocumentType(() => ({
 }));
 export default makeSource({
   contentDirPath: contentDirectory,
-  documentTypes: [Meta , Chapter ],
+  documentTypes: [Meta, Chapter],
   markdown: { rehypePlugins: [highlight], remarkPlugins: [remarkGfm] },
 });
