@@ -13,7 +13,6 @@ export const Chapter = defineDocumentType(() => ({
     index: { type: "number", required: true },
     date: { type: "date", required: false },
     author: { type: "string", required: false },
-    description: { type: "string", required: false },
     updated: { type: "date", required: false },
   },
   computedFields: {
