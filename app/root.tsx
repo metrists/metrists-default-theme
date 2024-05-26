@@ -1,4 +1,3 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
@@ -16,13 +15,14 @@ import { getTheme } from "@utils/theme.server";
 import { getHints } from "@utils/client-hints";
 import { useNonce } from "@utils/hooks/use-nonce";
 import { useTheme } from "./utils/hooks/use-theme";
-import stylesheet from "~/tailwind.css";
-import readerStyles from "~/reader.css";
+import stylesheet from "~/tailwind.css?url";
+import readerStyles from "~/reader.css?url";
+import vaulStyles from "vaul/dist/index.css?url";
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: readerStyles },
+  { rel: "stylesheet", href: vaulStyles },
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
