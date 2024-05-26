@@ -3,6 +3,7 @@ import highlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 export const contentDirectory = "content";
+export const contentDirectoryFromRot = `app/${contentDirectory}`;
 export const metaFileName = "meta";
 export const metaPath = `${metaFileName}.md`;
 
@@ -50,7 +51,7 @@ export const Meta = defineDocumentType(() => ({
   },
 }));
 export default makeSource({
-  contentDirPath: contentDirectory,
+  contentDirPath: contentDirectoryFromRot,
   documentTypes: [Meta, Chapter],
   markdown: { rehypePlugins: [highlight], remarkPlugins: [remarkGfm] },
 });

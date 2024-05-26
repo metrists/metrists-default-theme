@@ -1,11 +1,20 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js"],
+  "include": [
+    "env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
@@ -15,14 +24,25 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"],
-      "@components/*": ["./app/components/*"],
-      "@utils/*": ["./app/utils/*"],
-      "@routes/*": ["./app/routes/*"],
-      "@db/*": ["./db/*"],
-      "@modules/*": ["./app/modules/*"]
+      "~/*": [
+        "./app/*"
+      ],
+      "@components/*": [
+        "./app/components/*"
+      ],
+      "@utils/*": [
+        "./app/utils/*"
+      ],
+      "@routes/*": [
+        "./app/routes/*"
+      ],
+      "@db/*": [
+        "./db/*"
+      ],
+      "@modules/*": [
+        "./app/modules/*"
+      ]
     },
-
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
   }
